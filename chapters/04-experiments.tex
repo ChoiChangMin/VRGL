@@ -1,0 +1,30 @@
+\chapter{실험 및 결과}\label{ch:experiments}
+
+\section{실험 설정}
+실험 환경과 데이터셋을 서술합니다.
+
+\section{실험 결과}
+그림은 \texttt{figures/} 폴더에 넣고 다음과 같이 삽입합니다 (\cref{fig:example}).
+
+\begin{figure}[htbp]
+  \centering
+  % \includegraphics[width=0.7\textwidth]{result.pdf}
+  \fbox{\parbox[c][40mm][c]{0.6\textwidth}{\centering 그림 자리 (figures/ 에 파일 추가)}}
+  \caption{실험 결과 예시}\label{fig:example}
+\end{figure}
+
+\begin{table}[htbp]
+  \centering
+  \caption{성능 비교}\label{tab:results}
+  \begin{tabular}{lS[table-format=2.1]S[table-format=2.1]}
+    \toprule
+    {방법} & {정확도 (\si{\percent})} & {F1 (\si{\percent})} \\
+    \midrule
+    기준 방법 & 85.2 & 83.1 \\
+    \textbf{제안 방법} & \bfseries 91.4 & \bfseries 90.2 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{분석}
+결과를 분석합니다.

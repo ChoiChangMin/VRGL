@@ -1,0 +1,31 @@
+\chapter{제안 방법}\label{ch:method}
+
+\section{문제 정의}
+\begin{definition}[문제]\label{def:problem}
+  입력 $\mathbf{x} \in \mathbb{R}^d$ 에 대해 출력 $y$ 를 예측하는 함수 $f$ 를 찾는다.
+\end{definition}
+
+\section{제안 모델}
+목적 함수는 \cref{eq:objective}와 같습니다.
+\begin{equation}\label{eq:objective}
+  \min_{\theta} \; \frac{1}{N}\sum_{i=1}^{N} \mathcal{L}\bigl(f_\theta(\mathbf{x}_i), y_i\bigr) + \lambda \lVert \theta \rVert_2^2
+\end{equation}
+
+\begin{theorem}\label{thm:main}
+  적절한 조건 하에서 \cref{eq:objective}의 해는 유일하다.
+\end{theorem}
+\begin{proof}
+  증명을 서술합니다.
+\end{proof}
+
+\section{알고리즘}
+\begin{algorithm}[htbp]
+  \caption{제안 알고리즘}\label{alg:proposed}
+  \KwIn{데이터 $\{(\mathbf{x}_i, y_i)\}_{i=1}^N$, 학습률 $\eta$}
+  \KwOut{학습된 파라미터 $\theta$}
+  $\theta \leftarrow \theta_0$\;
+  \For{$t = 1$ \KwTo $T$}{
+    $\theta \leftarrow \theta - \eta \nabla_\theta \mathcal{L}$\;
+  }
+  \Return{$\theta$}\;
+\end{algorithm}

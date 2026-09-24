@@ -1,0 +1,24 @@
+# LaTeX 빌드 산출물
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.xdv
+*.loa
+*.tdo
+thesis.pdf
+build/
+
+# 에디터 / OS
+.DS_Store
+.vscode/
+*.swp

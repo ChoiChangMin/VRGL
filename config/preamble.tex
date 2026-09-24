@@ -1,0 +1,88 @@
+% =====================================================================
+%  패키지 및 서식 설정
+% =====================================================================
+% ---- 한글 (XeLaTeX + kotex) ----
+\usepackage{kotex}
+\setmainhangulfont{NanumMyeongjo}[BoldFont=NanumMyeongjoBold,ItalicFont=NanumMyeongjo]
+\setsanshangulfont{NanumGothic}[BoldFont=NanumGothicBold,ItalicFont=NanumGothic]
+\setmonohangulfont{NanumGothicCoding}
+
+% ---- 쪽 여백 / 줄간격 ----
+\usepackage[top=30mm,bottom=30mm,left=30mm,right=25mm,marginparwidth=20mm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% ---- 수식 / 정리 ----
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\newtheorem{theorem}{정리}[chapter]
+\newtheorem{lemma}[theorem]{보조정리}
+\newtheorem{proposition}[theorem]{명제}
+\newtheorem{corollary}[theorem]{따름정리}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{정의}
+\newtheorem{example}[theorem]{예제}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{비고}
+\renewcommand{\proofname}{증명}
+
+% ---- 그림 / 표 ----
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{booktabs,multirow,array,tabularx}
+\usepackage{caption,subcaption}
+\usepackage{float}
+
+% ---- 알고리즘 / 코드 ----
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\SetAlgorithmName{알고리즘}{알고리즘}{알고리즘 목록}
+\SetKwInput{KwIn}{입력}
+\SetKwInput{KwOut}{출력}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single,
+        numbers=left,numberstyle=\tiny,columns=fullflexible}
+
+% ---- 기타 ----
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{siunitx}
+
+% ---- 한글 캡션 / 목차 이름 ----
+\renewcommand{\contentsname}{목차}
+\renewcommand{\listfigurename}{그림 목차}
+\renewcommand{\listtablename}{표 목차}
+\renewcommand{\figurename}{그림}
+\renewcommand{\tablename}{표}
+\renewcommand{\appendixname}{부록}
+\renewcommand{\chaptername}{제}
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\centering}{제 \thechapter\ 장}{12pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{20pt}{30pt}
+
+% ---- 참고문헌 (biblatex + biber) ----
+\usepackage{csquotes}
+\usepackage[backend=biber,style=ieee,sorting=nyt]{biblatex}
+\addbibresource{references.bib}
+
+% ---- 초안 도구: 할 일 메모 ----
+%   \todo{...} 로 메모를 남기면 여백에 표시됩니다.
+%   최종본에서는 \documentclass 뒤에 \def\FinalVersion{} 를 넣으면 숨겨집니다.
+\usepackage{todonotes}
+\ifdefined\FinalVersion
+  \presetkeys{todonotes}{disable}{}
+\fi
+
+% ---- 하이퍼링크 (마지막에 로드) ----
+\usepackage[hidelinks,unicode]{hyperref}
+\hypersetup{pdftitle={\ThesisTitleKo},pdfauthor={\AuthorKo}}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\crefname{figure}{그림}{그림}
+\crefname{table}{표}{표}
+\crefname{equation}{식}{식}
+\crefformat{chapter}{#2제#1장#3}
+\Crefformat{chapter}{#2제#1장#3}
+\crefformat{section}{#2#1절#3}
+\Crefformat{section}{#2#1절#3}
+\crefname{theorem}{정리}{정리}
+\crefname{definition}{정의}{정의}
+\crefname{lemma}{보조정리}{보조정리}
