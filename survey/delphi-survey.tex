@@ -1,0 +1,159 @@
+% =====================================================================
+%  델파이 전문가 설문지 (독립 문서)
+%  빌드: 저장소 루트에서 latexmk  →  survey/delphi-survey.pdf
+% =====================================================================
+\documentclass[10pt,a4paper]{article}
+
+\usepackage{kotex}
+\input{../config/fonts}
+\usepackage[top=22mm,bottom=22mm,left=20mm,right=20mm]{geometry}
+\usepackage{amssymb,enumitem,multicol,fancyhdr,lastpage}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+
+\input{../config/metadata}
+\input{survey-style}
+\input{survey-config}
+\IfFileExists{round\the\numexpr\DelphiRound-1\relax-stats.tex}
+  {\input{round\the\numexpr\DelphiRound-1\relax-stats}}{}
+
+\newcommand{\ChkBox}{$\square$}
+\newcommand{\fillin}[1][30mm]{\underline{\hspace{#1}}}
+\newcommand{\SurveySection}[1]{%
+  \par\bigskip{\large\bfseries\color{DelphiDomain}#1\par}\smallskip
+  {\color{DelphiDomain}\hrule height 0.8pt}\medskip}
+
+\pagestyle{fancy}\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[C]{\small\thepage\ / \pageref{LastPage}}
+\fancyfoot[R]{\scriptsize\color{gray}\DelphiRound 차 델파이 조사}
+
+\usepackage[hidelinks,unicode]{hyperref}
+
+\begin{document}
+
+% ------------------------------------------------------------ 인사말
+\begin{center}
+  {\small\color{gray}\DelphiRound 차 델파이 조사 \quad|\quad 응답자 번호: \fillin[20mm]}\par\medskip
+  {\LARGE\bfseries \SurveyTitle\par}\medskip
+  {\large\color{DelphiDomain}— 전문가 타당성 평가 설문지 —\par}
+\end{center}
+\bigskip
+
+\begin{tcolorbox}[colback=white,colframe=DelphiDomain,boxrule=0.6pt,arc=1mm]
+안녕하십니까?
+
+바쁘신 가운데 귀한 시간을 내어 주셔서 진심으로 감사드립니다.
+
+본 조사는 \textbf{가상현실(VR) 기반 검도훈련 콘텐츠}에 포함되어야 할 구성요소를 도출하고,
+그 타당성을 검증하기 위한 \textbf{델파이(Delphi) 조사}입니다. 선행연구 분석과 전문가 면담을 통해
+도출한 5개 영역의 구성요소에 대해 검도·체육교육·VR/게임 분야 전문가 여러분의 의견을 구하고자 합니다.
+
+델파이 조사는 동일한 전문가 패널을 대상으로 \textbf{2--3회 반복}하여 의견의 합의를 이끌어내는 방법입니다.
+다음 차수에서는 이번 조사의 통계 결과(중앙값, 사분위 범위 등)를 함께 제시하여 의견을 재검토하실 수 있도록
+하겠습니다. 번거로우시더라도 이후 차수 조사에도 계속 참여해 주시면 감사하겠습니다.
+
+응답 내용은 통계법 제33조에 따라 연구 목적으로만 사용되며, 개인을 식별할 수 있는 정보는 공개되지 않습니다.
+응답 소요 시간은 \SurveyMinutes 이며, \textbf{\SurveyDeadline 까지} 회신해 주시기 바랍니다.
+
+\medskip
+\begin{tabular}{@{}ll}
+  연구자 & \UniversityKo\ \DepartmentKo\ \DegreeKo 과정 \AuthorKo \\
+  지도교수 & \AdvisorKo \\
+  연락처 & \ResearcherPhone \quad / \quad \ResearcherEmail \\
+  IRB 승인번호 & \IRBNumber
+\end{tabular}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=DelphiModule,colframe=DelphiRule,boxrule=0.5pt,arc=1mm]
+\small\textbf{연구 참여 동의}\quad
+본인은 위 연구의 목적과 내용을 이해하였으며, 자발적으로 연구에 참여하는 것에 동의합니다.\par
+\hfill \ChkBox\ 동의함 \qquad \ChkBox\ 동의하지 않음 \qquad 서명: \fillin[30mm]
+\end{tcolorbox}
+
+% ------------------------------------------------------------ I. 응답자 정보
+\SurveySection{I. 응답자 일반 정보}
+해당하는 곳에 \checkmark\ 표시하거나 내용을 기입해 주십시오. (전문가 패널 구성의 적절성을 보고하는 데에만 사용됩니다.)
+
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{@{}p{30mm}p{130mm}@{}}
+  \textbf{1. 주 전문 분야} & \ChkBox\ 검도 지도자(사범·코치)\quad \ChkBox\ 검도 선수/심판\quad \ChkBox\ 체육교육·스포츠과학 \\
+                          & \ChkBox\ VR·게임 개발/연구\quad \ChkBox\ 교육공학\quad \ChkBox\ 기타(\fillin[30mm]) \\
+  \textbf{2. 검도 단위} & \ChkBox\ 없음\quad \ChkBox\ 1--3단\quad \ChkBox\ 4--5단\quad \ChkBox\ 6단 이상 (\fillin[10mm]단) \\
+  \textbf{3. 경력} & 검도 수련 \fillin[12mm]년 \quad 지도 \fillin[12mm]년 \quad 해당 분야 연구·개발 \fillin[12mm]년 \\
+  \textbf{4. VR 경험} & \ChkBox\ 없음\quad \ChkBox\ 체험해 본 적 있음\quad \ChkBox\ 정기적으로 사용\quad \ChkBox\ VR 콘텐츠 개발·연구 경험 \\
+  \textbf{5. 최종 학력} & \ChkBox\ 학사\quad \ChkBox\ 석사\quad \ChkBox\ 박사수료\quad \ChkBox\ 박사 \\
+  \textbf{6. 소속/직위} & \fillin[80mm]
+\end{tabular}
+\renewcommand{\arraystretch}{1}
+
+% ------------------------------------------------------------ II. 작성 방법
+\SurveySection{II. 설문 작성 방법}
+아래 제시된 각 구성요소가 \textbf{“가상현실(VR) 기반 검도훈련 콘텐츠에 포함되어야 할 필요성 및 적절성이
+어느 정도인가”}에 대해 5점 척도로 평가하여 해당 번호에 \textbf{○ 또는 \checkmark} 표시해 주십시오.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|c|c|c|c|c|}
+  \hline\rowcolor{DelphiModule}
+  1점 & 2점 & 3점 & 4점 & 5점 \\ \hline
+  \small 전혀 적절하지 않음 & \small 적절하지 않음 & \small 보통 & \small 적절함 & \small 매우 적절함 \\
+  \small (불필요) & & & & \small (필수) \\ \hline
+\end{tabular}
+\end{center}
+
+\begin{itemize}[leftmargin=5mm,itemsep=1pt]
+  \item 각 영역의 마지막 \colorbox{DelphiModule}{\small 영역 전체} 문항은 해당 영역의 중분류·세부 구성요소 체계 전체가 적절한지를 평가합니다.
+  \item 표현이 모호하거나 수정이 필요한 문항은 \textbf{수정·보완 의견} 칸에 간단히 적어 주십시오.
+  \item 도출된 항목 외에 추가/수정/삭제가 필요하다고 판단되는 구성요소는 각 영역 하단의
+        \textbf{[개방형 의견란]}에 자유롭게 작성해 주십시오.
+\ifShowProposedItems
+  \item \colorbox{DelphiNewBg}{\textcolor{DelphiNew}{\small[신규]}} 표시 문항은 검도 경기·심판 규정 및 VR 안전 지침을
+        검토하여 연구자가 추가로 제안한 구성요소입니다. 다른 문항과 동일하게 평가해 주십시오.
+\fi
+\ifnum\DelphiRound>1
+  \item \textbf{\the\numexpr\DelphiRound-1\relax 차 결과} 열에는 이전 차수 전체 응답의 중앙값(Mdn)과 사분위 범위(Q1--Q3),
+        내용타당도 비율(CVR)이 제시되어 있습니다. 이를 참고하여 의견을 재검토해 주시고,
+        본인의 응답이 사분위 범위를 벗어나는 경우 수정·보완 의견 칸에 그 이유를 적어 주십시오.
+\fi
+\end{itemize}
+
+% ------------------------------------------------------------ III. 평가
+\newpage
+\SurveySection{III. VR 검도훈련 콘텐츠 구성요소 타당성 평가}
+\input{items}
+
+% ------------------------------------------------------------ IV. 상대적 중요도
+\SurveySection{IV. 영역별 상대적 중요도}
+VR 검도훈련 콘텐츠 개발에 있어 각 영역이 차지하는 상대적 중요도를 \textbf{합계가 100점이 되도록} 배분해 주십시오.
+(콘텐츠 개발 우선순위 및 영역별 가중치 산출에 활용됩니다.)
+
+\begin{center}
+\renewcommand{\arraystretch}{1.6}
+\begin{tabular}{|p{95mm}|c|}
+  \hline\rowcolor{DelphiModule}
+  \textbf{영역} & \textbf{배분 점수} \\ \hline
+  1. 하드웨어 및 인터랙션 & \fillin[15mm] 점 \\ \hline
+  2. 검도 무도론 및 교수학습 & \fillin[15mm] 점 \\ \hline
+  3. 동작 평가 및 피드백 & \fillin[15mm] 점 \\ \hline
+  4. 시스템 및 환경 & \fillin[15mm] 점 \\ \hline
+  5. 게임 설계 및 몰입 & \fillin[15mm] 점 \\ \hline
+  \rowcolor{DelphiModule}\multicolumn{1}{|r|}{\textbf{합계}} & \textbf{100 점} \\ \hline
+\end{tabular}
+\end{center}
+
+% ------------------------------------------------------------ V. 종합 의견
+\SurveySection{V. 종합 의견}
+\begin{tcolorbox}[colback=white,colframe=DelphiRule,boxrule=0.5pt,arc=1mm]
+\small
+1. 영역(대분류) 구성 자체에 대해 추가·통합·분리가 필요하다고 생각하시는 부분이 있다면 적어 주십시오.\par\vspace{16mm}
+2. VR 검도훈련 콘텐츠가 실제 도장 수련을 보완하기 위해 가장 중요하다고 생각하시는 점은 무엇입니까?\par\vspace{16mm}
+3. 기타 본 연구에 대한 제언이 있으시면 자유롭게 적어 주십시오.\par\vspace{16mm}
+\end{tcolorbox}
+
+\begin{center}
+\bigskip
+{\large 끝까지 응답해 주셔서 진심으로 감사드립니다.}
+\end{center}
+
+\end{document}

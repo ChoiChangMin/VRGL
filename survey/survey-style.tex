@@ -1,0 +1,153 @@
+% =====================================================================
+%  델파이 설문 문항 조판 매크로
+%  (설문지와 논문 부록에서 공통으로 사용 — 패키지 로드 후 \input)
+% =====================================================================
+\usepackage{longtable,array,colortbl,xcolor}
+\usepackage[most]{tcolorbox}
+
+\definecolor{DelphiDomain}{HTML}{1F3A5F}
+\definecolor{DelphiModule}{HTML}{E8EEF5}
+\definecolor{DelphiNew}{HTML}{B45309}
+\definecolor{DelphiNewBg}{HTML}{FFF7ED}
+\definecolor{DelphiRule}{HTML}{B8C2CC}
+
+% ---- 설정값 (문서에서 \renewcommand / \setboolean 으로 변경) ----
+\newif\ifShowProposedItems  \ShowProposedItemstrue   % [신규] 제안 문항 표시
+\newif\ifShowCommentColumn  \ShowCommentColumntrue   % 문항별 의견 칸
+\newif\ifShowDomainRating   \ShowDomainRatingtrue    % 영역 전체 타당성 문항
+\newif\ifShowOpenBox        \ShowOpenBoxtrue         % 영역별 개방형 의견란
+\providecommand{\DelphiRound}{1}                     % 조사 차수 (2 이상이면 이전 차수 결과 열 표시)
+
+% ---- 열 너비 ----
+\newlength{\DelphiNoW}      \setlength{\DelphiNoW}{10mm}
+\newlength{\DelphiRateW}    \setlength{\DelphiRateW}{7.5mm}
+\newlength{\DelphiCommentW} \setlength{\DelphiCommentW}{28mm}
+\newlength{\DelphiPrevW}    \setlength{\DelphiPrevW}{17mm}
+\newlength{\DelphiItemW}
+
+% ---- 이전 차수 통계 (analysis/delphi_analysis.py 가 생성) ----
+%   \SetPrevStat{문항번호}{중앙값}{Q1}{Q3}{CVR}
+\newcommand{\SetPrevStat}[5]{%
+  \expandafter\gdef\csname delphi@prev@#1\endcsname{%
+    \textbf{#2}\newline{\tiny(#3--#4)}\newline{\tiny CVR #5}}}
+\newcommand{\PrevStat}[1]{%
+  \ifcsname delphi@prev@#1\endcsname\csname delphi@prev@#1\endcsname\else--\fi}
+
+% ---- 내부 구현 ----
+\makeatletter
+\newcount\delphi@ncols
+\newif\ifdelphi@prev
+\newcommand{\delphi@rows}{}
+\newcommand{\delphi@add}[1]{\g@addto@macro\delphi@rows{#1}}
+\newcommand{\delphi@rate}{%
+  & \centering ① & \centering ② & \centering ③ & \centering ④ & \centering ⑤}
+
+\newcommand{\delphi@setup}{%
+  \ifnum\DelphiRound>1 \delphi@prevtrue\else\delphi@prevfalse\fi
+  \delphi@ncols=7
+  \setlength{\DelphiItemW}{\dimexpr\linewidth-\DelphiNoW-5\DelphiRateW-14\tabcolsep\relax}%
+  \ifShowCommentColumn
+    \advance\delphi@ncols 1
+    \addtolength{\DelphiItemW}{-\dimexpr\DelphiCommentW+2\tabcolsep\relax}\fi
+  \ifdelphi@prev
+    \advance\delphi@ncols 1
+    \addtolength{\DelphiItemW}{-\dimexpr\DelphiPrevW+2\tabcolsep\relax}\fi
+  \delphi@build}
+
+% 열 정의와 머리행을 조건에 따라 미리 조립 (표 안에서 \if 를 쓰지 않기 위함)
+\newcommand{\delphi@spec}{}
+\newcommand{\delphi@headrow}{}
+\newcommand{\delphi@hd}[1]{\color{white}\bfseries #1}
+\newcommand{\delphi@build}{%
+  \gdef\delphi@spec{>{\centering\arraybackslash\small}p{\DelphiNoW}
+                    >{\raggedright\arraybackslash\small}p{\DelphiItemW}}%
+  \gdef\delphi@headrow{\rowcolor{DelphiDomain}\delphi@hd{번호} & \delphi@hd{세부 구성요소}}%
+  \ifdelphi@prev
+    \g@addto@macro\delphi@spec{>{\centering\arraybackslash\footnotesize}p{\DelphiPrevW}}%
+    \xdef\delphi@prevlabel{\the\numexpr\DelphiRound-1\relax}%
+    \g@addto@macro\delphi@headrow{& \delphi@hd{\scriptsize \delphi@prevlabel 차 결과}\newline
+                                    \color{white}\tiny Mdn (Q1--Q3)}%
+  \fi
+  \g@addto@macro\delphi@spec{*{5}{>{\centering\arraybackslash}p{\DelphiRateW}}}%
+  \g@addto@macro\delphi@headrow{%
+    & \delphi@hd{\scriptsize 전혀\newline 부적절\newline (1)}
+    & \delphi@hd{\scriptsize 부적절\newline ~\newline (2)}
+    & \delphi@hd{\scriptsize 보통\newline ~\newline (3)}
+    & \delphi@hd{\scriptsize 적절\newline ~\newline (4)}
+    & \delphi@hd{\scriptsize 매우\newline 적절\newline (5)}}%
+  \ifShowCommentColumn
+    \g@addto@macro\delphi@spec{>{\raggedright\arraybackslash\small}p{\DelphiCommentW}}%
+    \g@addto@macro\delphi@headrow{& \delphi@hd{수정·보완 의견}}%
+  \fi}
+
+\newcommand{\delphi@head}{%
+  \arrayrulecolor{DelphiDomain}\hline
+  \delphi@headrow \\ \hline
+  \arrayrulecolor{DelphiRule}}
+
+% ---- 사용자 매크로 ----
+\newcommand{\delphi@domnum}{}
+\newcommand{\delphi@domname}{}
+\newcommand{\Domain}[3]{%
+  \gdef\delphi@domnum{#1}\gdef\delphi@domname{#2}%
+  \gdef\delphi@rows{}%
+  \delphi@setup
+  \DomainHeading{#1}{#2}{#3}}
+
+% 영역 제목 모양 (설문지/부록에서 재정의 가능)
+\providecommand{\DomainHeading}[3]{%
+  \par\medskip
+  \begin{tcolorbox}[colback=DelphiModule,colframe=DelphiDomain,boxrule=0.6pt,
+                    arc=1mm,left=2mm,right=2mm,top=1mm,bottom=1mm,
+                    title={\bfseries 영역 #1.\ #2},fonttitle=\normalsize]
+    \small #3
+  \end{tcolorbox}}
+
+\newcommand{\delphi@modulerow}[3]{%
+  \delphi@add{\rowcolor{DelphiModule}
+    \multicolumn{\the\delphi@ncols}{l}{\small\bfseries #1\ #2#3}\\ \hline}}
+\newcommand{\Module}[2]{\delphi@modulerow{#1}{#2}{}}
+\newcommand{\NewModule}[2]{%
+  \ifShowProposedItems
+    \delphi@modulerow{#1}{#2}{\ \textcolor{DelphiNew}{\scriptsize[신규 제안]}}\fi}
+
+\newcommand{\delphi@itemrow}[4]{%
+  \delphi@add{#4 #1 & \textbf{#2:} #3}%
+  \ifdelphi@prev\delphi@add{& \PrevStat{#1}}\fi
+  \delphi@add{\delphi@rate}%
+  \ifShowCommentColumn\delphi@add{&}\fi
+  \delphi@add{\\ \hline}}
+\newcommand{\Item}[3]{\delphi@itemrow{#1}{#2}{#3}{}}
+\newcommand{\NewItem}[3]{%
+  \ifShowProposedItems
+    \delphi@itemrow{#1}{#2 \textcolor{DelphiNew}{\scriptsize[신규]}}{#3}{\rowcolor{DelphiNewBg}}\fi}
+
+\newcommand{\EndDomain}{%
+  \ifShowDomainRating
+    \delphi@itemrow{D\delphi@domnum}{영역 전체}%
+      {위 중분류·세부 구성요소가 이 영역을 적절하게 구성하고 있다}{\rowcolor{DelphiModule}}%
+  \fi
+  \begingroup
+  \setlength{\LTpre}{2pt}\setlength{\LTpost}{4pt}%
+  \renewcommand{\arraystretch}{1.25}%
+  \expandafter\longtable\expandafter{\delphi@spec}
+    \delphi@head \endfirsthead
+    \delphi@head \endhead
+    \delphi@rows
+  \endlongtable
+  \endgroup
+  \ifShowOpenBox\OpenCommentBox{\delphi@domnum}\fi}
+
+% ---- 영역별 개방형 의견란 ----
+\newcommand{\delphi@blank}{\par\vspace{6mm}}
+\providecommand{\OpenCommentBox}[1]{%
+  \begin{tcolorbox}[colback=white,colframe=DelphiRule,boxrule=0.5pt,arc=1mm,
+                    left=2mm,right=2mm,top=1mm,bottom=1mm,breakable,
+                    title={\small\bfseries [개방형 의견란] 영역 #1},
+                    coltitle=DelphiDomain,colbacktitle=DelphiModule]
+    \small
+    \textbf{추가}가 필요한 구성요소:\delphi@blank
+    \textbf{수정}이 필요한 구성요소 (번호 및 수정안):\delphi@blank
+    \textbf{삭제}가 필요한 구성요소 (번호 및 사유):\delphi@blank
+  \end{tcolorbox}}
+\makeatother

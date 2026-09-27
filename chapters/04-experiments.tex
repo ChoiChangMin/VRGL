@@ -26,5 +26,12 @@
   \end{tabular}
 \end{table}
 
+\section{델파이 조사 결과}
+% 응답을 분석하면 analysis/output/round1-results.tex 가 생성되어 아래에 자동으로 표가 들어갑니다.
+%   python analysis/delphi_analysis.py analyze data/round1.csv --round 1
+\IfFileExists{analysis/output/round1-results.tex}
+  {\input{analysis/output/round1-results}}
+  {\todo[inline]{1차 델파이 응답 분석 후 결과 표가 자동으로 삽입됩니다 (README 참고)}}
+
 \section{분석}
 결과를 분석합니다.

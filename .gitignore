@@ -16,6 +16,7 @@
 *.loa
 *.tdo
 thesis.pdf
+survey/*.pdf
 build/
 
 # 에디터 / OS
@@ -23,3 +24,6 @@ build/
 .vscode/
 *.swp
 *-SAVE-ERROR
+
+# Python
+__pycache__/

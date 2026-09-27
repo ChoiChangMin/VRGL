@@ -18,6 +18,40 @@
   증명을 서술합니다.
 \end{proof}
 
+\section{델파이 조사 설계 및 분석 방법}\label{sec:delphi}
+
+VR 검도훈련 콘텐츠 구성요소의 타당성은 델파이 기법~\cite{dalkey1963delphi}으로 검증하였다.
+전문가 패널은 검도 지도자, 체육교육·스포츠과학 연구자, VR·게임 개발자, 교육공학 전문가로 구성하고,
+동일한 패널을 대상으로 조사를 반복하며 이전 차수의 중앙값과 사분위 범위를 제시하여 의견 수렴을 유도하였다.
+설문 문항은 \cref{app:survey}와 같다.
+
+각 문항은 내용타당도 비율(CVR)~\cite{lawshe1975cvr}, 합의도, 수렴도~\cite{lee2001delphi}, 변이계수(CV)로 분석하였다.
+응답자 수를 $N$, 4점 이상으로 응답한 전문가 수를 $n_e$, 중앙값을 $Mdn$, 제1·3사분위수를 $Q_1$, $Q_3$라 할 때
+\begin{align}
+  \mathrm{CVR} &= \frac{n_e - N/2}{N/2}, &
+  \text{합의도} &= 1 - \frac{Q_3 - Q_1}{Mdn}, &
+  \text{수렴도} &= \frac{Q_3 - Q_1}{2}, &
+  \mathrm{CV} &= \frac{SD}{M}
+  \label{eq:delphi}
+\end{align}
+이다. \Cref{tab:delphi-criteria}의 기준을 모두 충족한 문항을 채택하고,
+하나라도 충족하지 못한 문항은 전문가 의견을 반영하여 수정·삭제 여부를 검토하였다.
+
+\begin{table}[htbp]
+  \centering
+  \caption{델파이 조사 문항 채택 기준}\label{tab:delphi-criteria}
+  \begin{tabular}{lll}
+    \toprule
+    지표 & 기준 & 의미 \\
+    \midrule
+    CVR & $\geq$ 최소값 ($N=12$일 때 .56) & 내용타당도 \\
+    합의도 & $\geq .75$ & 전문가 간 의견 일치 \\
+    수렴도 & $\leq .50$ & 응답의 집중 정도 \\
+    CV & $\leq .50$ & 응답의 안정성 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
 \section{알고리즘}
 \begin{algorithm}[htbp]
   \caption{제안 알고리즘}\label{alg:proposed}

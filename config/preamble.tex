@@ -3,9 +3,7 @@
 % =====================================================================
 % ---- 한글 (XeLaTeX + kotex) ----
 \usepackage{kotex}
-\setmainhangulfont{NanumMyeongjo}[BoldFont=NanumMyeongjoBold,ItalicFont=NanumMyeongjo]
-\setsanshangulfont{NanumGothic}[BoldFont=NanumGothicBold,ItalicFont=NanumGothic]
-\setmonohangulfont{NanumGothicCoding}
+\input{config/fonts}
 
 % ---- 쪽 여백 / 줄간격 ----
 \usepackage[top=30mm,bottom=30mm,left=30mm,right=25mm,marginparwidth=20mm]{geometry}
@@ -72,6 +70,9 @@
   \presetkeys{todonotes}{disable}{}
 \fi
 
+% ---- 델파이 설문 문항 표 (survey/items.tex 를 부록에서 사용) ----
+\input{survey/survey-style}
+
 % ---- 하이퍼링크 (마지막에 로드) ----
 \usepackage[hidelinks,unicode]{hyperref}
 \hypersetup{pdftitle={\ThesisTitleKo},pdfauthor={\AuthorKo}}
@@ -83,6 +84,8 @@
 \Crefformat{chapter}{#2제#1장#3}
 \crefformat{section}{#2#1절#3}
 \Crefformat{section}{#2#1절#3}
+\crefformat{appendix}{#2부록 #1#3}
+\Crefformat{appendix}{#2부록 #1#3}
 \crefname{theorem}{정리}{정리}
 \crefname{definition}{정의}{정의}
 \crefname{lemma}{보조정리}{보조정리}
